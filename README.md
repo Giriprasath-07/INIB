@@ -122,7 +122,7 @@ A to-do list app to manage daily tasks.
 ## Live Demo
 
 - Hosted link: `[https://giriprasath-07.github.io/INIB/]`
-- Video demo: `[]`
+- Video demo: `[https://www.linkedin.com/posts/giriprasath-v-ba186838b_interninfobyte-webdevelopment-frontenddevelopment-ugcPost-7478085106612609025--ZCF/?utm_source=share&utm_medium=member_android&rcm=ACoAAGAOsqkBw1TEEstd0E9WhiGc0J5kEireVBM]`
 
 ---
 
