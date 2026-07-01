@@ -36,7 +36,7 @@ Create a personal portfolio using **HTML & CSS**, showcasing skills, sample work
 - Showcase of skills, samples, and projects
 
 **Deployment**
-- Hosted at: `[]`
+- Hosted at: `[https://giriprasath-07.github.io/INIB/]`
 - Repo folder: `/task-1-portfolio`
 
 ---
@@ -52,7 +52,7 @@ An attractive, user-friendly landing page with compelling visuals and a clear ca
 - Fully responsive, mobile-friendly design
 
 **Deployment**
-- Hosted at: `[Add your live link here]`
+- Hosted at: `[https://giriprasath-07.github.io/INIB/]`
 - Repo folder: `/task-2-ecommerce-landing-page`
 
 ---
@@ -69,7 +69,7 @@ Converts a temperature value between Celsius, Fahrenheit, and Kelvin.
 - Bonus: supports Kelvin conversion
 
 **Deployment**
-- Hosted at: `[Add your live link here]`
+- Hosted at: `[https://giriprasath-07.github.io/INIB/]`
 - Repo folder: `/task-3-temperature-converter`
 
 ---
@@ -85,7 +85,7 @@ A basic calculator with core mathematical operations, built using HTML, CSS, and
 - Logic handled via JS event listeners, conditionals, and operators
 
 **Deployment**
-- Hosted at: `[Add your live link here]`
+- Hosted at: `[https://giriprasath-07.github.io/INIB/]`
 - Repo folder: `/task-4-calculator`
 
 ---
@@ -102,7 +102,7 @@ A to-do list app to manage daily tasks.
 - Bonus: date & time stamps for added/completed tasks
 
 **Deployment**
-- Hosted at: `[Add your live link here]`
+- Hosted at: `[https://giriprasath-07.github.io/INIB/]`
 - Repo folder: `/task-5-todo-app`
 
 ---
@@ -121,8 +121,8 @@ A to-do list app to manage daily tasks.
 
 ## Live Demo
 
-- Hosted link: `[Add your live link here]`
-- Video demo: `[Add your YouTube/LinkedIn video link here]`
+- Hosted link: `[https://giriprasath-07.github.io/INIB/]`
+- Video demo: `[]`
 
 ---
 
