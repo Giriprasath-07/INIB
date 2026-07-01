@@ -1,30 +1,28 @@
 # INIB - Intern InfoByte Internship Tasks
 
-This repository contains my project submissions for the **Web Development Internship** at **Intern InfoByte**.
+This repository contains my task submissions for the **Web Development Internship** at **Intern InfoByte**.
 
-As per the internship guidelines, this repo (`INIB`) holds all the tasks completed during the program, built using core web development skills such as **HTML, CSS, and JavaScript**.
-
----
-
-## 📋 Internship Instructions
-
-1. Complete at least one task as per convenience for successful completion of the internship.
-2. Maintain this repository (`INIB`) for all tasks and share the link in the task submission form.
-3. Refer to online resources such as Google Search, tutorials, and videos for help when needed.
+**Author:** V.Giriprasath
 
 ---
 
-## 🚀 Tasks Overview
+## About
 
-| Task | Title | Description | Status |
-|------|-------|--------------|--------|
-| 1 | [Portfolio](#task-1--portfolio) | Personal portfolio website built with HTML & CSS | ⬜ |
-| 2 | [E-Commerce Landing Page](#task-2--e-commerce-landing-page) | Attractive, responsive product landing page | ⬜ |
-| 3 | [Temperature Converter Website](#task-3--temperature-converter-website) | Converts between Celsius, Fahrenheit & Kelvin | ⬜ |
-| 4 | [Calculator](#task-4--calculator) | Basic functional calculator using JS | ⬜ |
-| 5 | [Basic To-Do Web App](#task-5--basic-to-do-web-app) | To-do list app with pending/completed tasks | ⬜ |
+As part of this internship, I had to complete at least one task using **HTML, CSS, and JavaScript**. This repo holds the code for the task(s) I built.
 
-*(Mark ✅ next to the task(s) you have completed and hosted.)*
+---
+
+## Tasks
+
+| # | Task | What it does |
+|---|------|---------------|
+| 1 | Portfolio | A personal portfolio website showing my skills, projects, and contact info. |
+| 2 | E-Commerce Landing Page | A responsive landing page for an online store with product showcase and sign-up option. |
+| 3 | Temperature Converter | Converts a temperature between Celsius, Fahrenheit, and Kelvin. |
+| 4 | Calculator | A basic calculator that can add, subtract, multiply, and divide. |
+| 5 | To-Do Web App | A to-do list app where you can add, complete, edit, and delete tasks. |
+
+*(Add ✅ next to the task(s) you completed.)*
 
 ---
 
@@ -109,37 +107,23 @@ A to-do list app to manage daily tasks.
 
 ---
 
-## 🛠️ Tech Stack
 
-- HTML5
-- CSS3
-- JavaScript (Vanilla)
+## Tech Used
 
-## 🌐 Deployment Platforms Used
+- HTML
+- CSS
+- JavaScript
 
-Hosted using one or more of the following free hosting providers:
-- GitHub Pages
-- Netlify
-- Vercel
-- 000WebHost
-- Heroku
+## How to Run
 
-## 📹 Demo
+1. Clone this repository.
+2. Open the `index.html` file of the task folder in your browser.
 
-Video walkthroughs of each task are posted on my LinkedIn profile, tagged **@Intern InfoByte** with the hashtag `#interninfobyte`.
+## Live Demo
 
-- Task demo link(s): `[Add YouTube/LinkedIn video links here]`
-
-## 📄 About This Internship
-
-This repository was created as part of the **Intern InfoByte** Web Development Internship program.
-
-> LinkedIn Profile Title: *Intern at Intern InfoByte*
+- Hosted link: `[Add your live link here]`
+- Video demo: `[Add your YouTube/LinkedIn video link here]`
 
 ---
 
-## 👤 Author
-
-**Name:** `[Your Name]`
-**LinkedIn:** `[Your LinkedIn URL]`
-**GitHub:** `[Your GitHub URL]`
+Made by **V.Giriprasath** for the Intern InfoByte Web Development Internship.
