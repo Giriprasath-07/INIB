@@ -1,0 +1,372 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    padding:40px 20px;
+
+    background:linear-gradient(
+        135deg,
+        #0f172a,
+        #111827,
+        #1e293b
+    );
+
+    color:white;
+}
+
+/* ================= MAIN CONTAINER ================= */
+
+.main-container{
+
+    max-width:1300px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:350px 1fr;
+
+    gap:30px;
+}
+
+/* ================= LEFT PANEL ================= */
+
+.left-panel{
+
+    background:rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:25px;
+
+    padding:30px;
+
+    box-shadow:0 15px 35px rgba(0,0,0,0.3);
+
+    height:fit-content;
+}
+
+.left-panel h1{
+
+    font-size:36px;
+
+    margin-bottom:15px;
+
+    color:#f8fafc;
+}
+
+.left-panel p{
+
+    color:#cbd5e1;
+
+    line-height:1.7;
+
+    margin-bottom:30px;
+}
+
+/* ================= INPUT ================= */
+
+.left-panel input{
+
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:15px;
+
+    background:rgba(255,255,255,0.12);
+
+    color:white;
+
+    margin-bottom:20px;
+
+    font-size:16px;
+}
+
+.left-panel input::placeholder{
+    color:#cbd5e1;
+}
+
+/* ================= BUTTON ================= */
+
+.left-panel button{
+
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:15px;
+
+    background:linear-gradient(
+        to right,
+        #6366f1,
+        #8b5cf6
+    );
+
+    color:white;
+
+    font-size:17px;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+    margin-bottom:30px;
+}
+
+.left-panel button:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 10px 20px rgba(99,102,241,0.3);
+}
+
+/* ================= STATS ================= */
+
+.stats{
+
+    display:flex;
+
+    gap:15px;
+}
+
+.stat-box{
+
+    flex:1;
+
+    background:rgba(255,255,255,0.08);
+
+    padding:20px;
+
+    border-radius:18px;
+
+    text-align:center;
+}
+
+.stat-box h2{
+
+    font-size:32px;
+
+    margin-bottom:8px;
+
+    color:#38bdf8;
+}
+
+.stat-box span{
+
+    color:#cbd5e1;
+}
+
+/* ================= RIGHT PANEL ================= */
+
+.right-panel{
+
+    background:rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:25px;
+
+    padding:30px;
+
+    box-shadow:0 15px 35px rgba(0,0,0,0.3);
+}
+
+/* ================= HEADER ================= */
+
+.task-header{
+
+    margin-bottom:30px;
+}
+
+.task-header h2{
+
+    font-size:34px;
+
+    color:#f8fafc;
+}
+
+/* ================= TASK LIST ================= */
+
+#taskList{
+
+    list-style:none;
+}
+
+/* ================= TASK CARD ================= */
+
+.task-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:rgba(255,255,255,0.08);
+
+    border-left:6px solid #8b5cf6;
+
+    padding:22px;
+
+    border-radius:18px;
+
+    margin-bottom:20px;
+
+    transition:0.3s;
+}
+
+.task-item:hover{
+
+    transform:translateY(-5px);
+
+    background:rgba(255,255,255,0.12);
+}
+
+/* ================= TASK TEXT ================= */
+
+.task-text{
+
+    flex:1;
+
+    font-size:18px;
+
+    line-height:1.6;
+
+    cursor:pointer;
+}
+
+/* ================= COMPLETED TASK ================= */
+
+.completed{
+
+    text-decoration:line-through;
+
+    color:#94a3b8;
+}
+
+/* ================= ACTION BUTTONS ================= */
+
+.actions{
+
+    display:flex;
+
+    gap:12px;
+}
+
+/* ================= COMPLETE BUTTON ================= */
+
+.complete-btn{
+
+    border:none;
+
+    padding:12px 16px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    background:linear-gradient(
+        to right,
+        #06b6d4,
+        #3b82f6
+    );
+
+    color:white;
+
+    transition:0.3s;
+}
+
+.complete-btn:hover{
+
+    transform:scale(1.05);
+}
+
+/* ================= DELETE BUTTON ================= */
+
+.delete-btn{
+
+    border:none;
+
+    padding:12px 16px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    background:linear-gradient(
+        to right,
+        #ef4444,
+        #dc2626
+    );
+
+    color:white;
+
+    transition:0.3s;
+}
+
+.delete-btn:hover{
+
+    transform:scale(1.05);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+    .main-container{
+
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:600px){
+
+    body{
+
+        padding:20px 15px;
+    }
+
+    .left-panel,
+    .right-panel{
+
+        padding:22px;
+    }
+
+    .task-item{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:18px;
+    }
+
+    .actions{
+
+        width:100%;
+    }
+
+    .actions button{
+
+        flex:1;
+    }
+
+    .stats{
+
+        flex-direction:column;
+    }
+}

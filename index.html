@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Giriprasath V</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #2563eb;
+      --secondary: #1e40af;
+      --accent: #f59e0b;
+      --text-dark: #1f2937;
+      --text-light: #6b7280;
+      --bg-light: #f9fafb;
+      --bg-white: #ffffff;
+      --border: #e5e7eb;
+      --shadow: 0 4px 6px rgba(0,0,0,0.08);
+      --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
+      /* calculator palette */
+      --calc-bg: #0b1220;
+      --calc-btn: #1f2937;
+      --calc-btn-accent: #334155;
+      --calc-text: #e6eef8;
+      --calc-muted: #94a3b8;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-white); color: var(--text-dark); line-height: 1.6; }
+
+    /* ── App Shell ── */
+    .app-tabs {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: var(--bg-white);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: center;
+    }
+    .tab-btn {
+      padding: 14px 28px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      background: transparent;
+      color: var(--text-light);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.25s ease;
+      letter-spacing: 0.02em;
+    }
+    .tab-btn:hover { color: var(--primary); }
+    .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    /* ── Pages ── */
+    .page { display: none; padding-top: 53px; min-height: 100vh; }
+    .page.active { display: block; }
+
+    /* ══════════════════════════════
+       PORTFOLIO PAGE
+    ══════════════════════════════ */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    /* Portfolio Nav */
+    .port-nav {
+      background: var(--bg-white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 53px;
+      z-index: 99;
+    }
+    .port-nav .container { display: flex; justify-content: space-between; align-items: center; padding: 0.9rem 20px; }
+    .nav-brand { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+    .nav-menu { display: flex; list-style: none; gap: 1.8rem; }
+    .nav-menu a { text-decoration: none; color: var(--text-dark); font-weight: 500; font-size: 0.9rem; transition: color 0.2s; }
+    .nav-menu a:hover, .nav-menu a.active { color: var(--primary); }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white; padding: 80px 20px; text-align: center;
+    }
+    .hero-content { max-width: 760px; margin: 0 auto; }
+    .profile-image { font-size: 100px; margin-bottom: 16px; opacity: 0.9; }
+    .hero h1 { font-size: 2.8rem; margin-bottom: 10px; font-weight: 800; }
+    .hero .subtitle { font-size: 1.2rem; margin-bottom: 8px; opacity: 0.95; }
+    .hero .tagline { font-size: 1rem; margin-bottom: 28px; opacity: 0.85; }
+    .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn { padding: 11px 28px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.25s ease; display: inline-block; }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-primary:hover { background: #d97706; transform: translateY(-2px); }
+    .btn-secondary { background: transparent; color: white; border: 2px solid white; }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
+
+    /* Sections */
+    .port-section { padding: 64px 20px; }
+    .port-section.alt { background: var(--bg-light); }
+    .section-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 40px; text-align: center; color: var(--text-dark); }
+
+    /* About */
+    .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .about-text p { color: var(--text-light); margin-bottom: 18px; line-height: 1.9; }
+    .about-highlights { display: grid; gap: 18px; }
+    .highlight-card { background: var(--bg-white); padding: 22px; border-radius: 12px; box-shadow: var(--shadow); text-align: center; transition: all 0.3s; }
+    .highlight-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .highlight-card i { font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
+    .highlight-card h3 { color: var(--text-dark); margin-bottom: 6px; font-size: 1rem; }
+    .highlight-card p { color: var(--text-light); font-size: 0.9rem; }
+
+    /* Skills */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+    .skill-card { background: var(--bg-light); padding: 28px 24px; border-radius: 12px; text-align: center; transition: all 0.3s; border-left: 4px solid var(--primary); }
+    .skill-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); background: var(--bg-white); border-left-color: var(--accent); }
+    .skill-card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 12px; }
+    .skill-card h3 { color: var(--text-dark); margin-bottom: 8px; font-size: 1.1rem; }
+    .skill-card p { color: var(--text-light); font-size: 0.9rem; }
+
+    /* Experience / Education cards */
+    .exp-card, .edu-card {
+      background: var(--bg-white); padding: 38px; border-radius: 12px; box-shadow: var(--shadow);
+      max-width: 780px; margin: 0 auto;
+    }
+    .exp-card { border-left: 5px solid var(--primary); }
+    .edu-card { border-left: 5px solid var(--accent); background: var(--bg-light); }
+    .exp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 12px; }
+    .exp-header h3 { font-size: 1.6rem; }
+    .badge { padding: 7px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+    .badge-blue { background: var(--primary); color: white; }
+    .badge-amber { background: var(--accent); color: white; }
+    .exp-duration { color: var(--accent); font-weight: 600; margin-bottom: 6px; font-size: 0.95rem; }
+    .exp-location { color: var(--text-light); margin-bottom: 18px; font-size: 0.9rem; }
+    .exp-details { list-style: none; }
+    .exp-details li { padding: 9px 0 9px 24px; position: relative; color: var(--text-light); line-height: 1.75; font-size: 0.95rem; }
+    .exp-details li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
+    .institution { color: var(--primary); font-weight: 600; font-size: 1.05rem; margin: 18px 0 12px; }
+    .edu-duration { color: var(--text-light); margin: 10px 0; font-size: 0.9rem; }
+    .status-badge { background: #d1fae5; color: #065f46; padding: 7px 14px; border-radius: 6px; display: inline-block; font-weight: 600; font-size: 0.85rem; margin-top: 4px; }
+
+    /* Contact */
+    .contact-intro { text-align: center; color: var(--text-light); margin-bottom: 36px; font-size: 1.05rem; }
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; max-width: 860px; margin: 0 auto; }
+    .contact-card { background: var(--bg-white); padding: 28px; border-radius: 12px; box-shadow: var(--shadow); text-align: center; transition: all 0.3s; }
+    .contact-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .contact-card i { font-size: 2.2rem; color: var(--primary); margin-bottom: 12px; }
+    .contact-card h3 { color: var(--text-dark); margin-bottom: 8px; font-size: 1rem; }
+    .contact-card a { color: var(--primary); font-size: 0.9rem; text-decoration: none; font-weight: 600; }
+    .contact-card a:hover { color: var(--accent); }
+    .contact-card p { color: var(--text-light); font-size: 0.9rem; }
+
+    /* Footer */
+    .port-footer { background: var(--text-dark); color: white; padding: 28px 20px; }
+    .port-footer .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .port-footer p { font-size: 0.9rem; opacity: 0.75; }
+    .social-links { display: flex; gap: 14px; }
+    .social-links a { color: white; font-size: 1.4rem; transition: color 0.2s; opacity: 0.75; }
+    .social-links a:hover { color: var(--accent); opacity: 1; }
+
+    /* ══════════════════════════════
+       CALCULATOR PAGE
+    ══════════════════════════════ */
+    #page-calc {
+      background: linear-gradient(180deg, #071225 0%, #05102a 100%);
+      align-items: center; justify-content: center;
+    }
+    #page-calc.active { display: flex; }
+    .calculator {
+      width: 340px;
+      background: var(--calc-bg);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 12px 40px rgba(2,6,23,0.65);
+    }
+    .calc-screen {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
+      border-radius: 10px; padding: 16px; min-height: 80px;
+      display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end;
+      margin-bottom: 14px;
+    }
+    .calc-prev { color: var(--calc-muted); font-size: 13px; min-height: 16px; word-wrap: break-word; text-align: right; }
+    .calc-curr { color: var(--calc-text); font-size: 30px; font-weight: 600; word-wrap: break-word; text-align: right; }
+    .calc-keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+    .calc-btn {
+      background: var(--calc-btn); color: var(--calc-text);
+      border: none; padding: 15px; font-size: 17px; border-radius: 10px;
+      cursor: pointer; transition: transform .07s, box-shadow .07s;
+      box-shadow: 0 4px 8px rgba(2,6,23,0.4); font-family: inherit;
+    }
+    .calc-btn:active { transform: translateY(1px) scale(.997); }
+    .calc-op { background: linear-gradient(180deg, #ffb86b, #ff9f3b); color: #08111a; font-weight: 700; }
+    .calc-eq { background: linear-gradient(180deg, #00d18b, #00b580); color: #012018; font-weight: 700; grid-column: 4; grid-row: 5; }
+    .calc-zero { grid-column: 1 / 3; text-align: left; padding-left: 24px; }
+    .calc-fn { background: var(--calc-btn-accent); }
+
+    /* ══════════════════════════════
+       TEMPERATURE CONVERTER PAGE
+    ══════════════════════════════ */
+    #page-temp {
+      background: linear-gradient(180deg, #eef2ff 0%, #f7f9fc 100%);
+      align-items: center; justify-content: center;
+    }
+    #page-temp.active { display: flex; }
+    .temp-card {
+      width: 100%; max-width: 500px;
+      background: white; padding: 32px;
+      border-radius: 16px; box-shadow: 0 6px 24px rgba(16,24,40,0.07);
+      margin: 20px;
+    }
+    .temp-card h2 { font-size: 1.3rem; margin-bottom: 24px; color: var(--text-dark); }
+    .temp-row { display: flex; gap: 12px; align-items: flex-end; margin-bottom: 16px; flex-wrap: wrap; }
+    .temp-field { flex: 1; min-width: 120px; }
+    .temp-label { font-size: 0.85rem; color: var(--text-light); display: block; margin-bottom: 6px; font-weight: 500; }
+    .temp-input {
+      width: 100%; padding: 10px 12px;
+      border: 1px solid var(--border); border-radius: 8px;
+      font-size: 1rem; color: var(--text-dark); outline: none;
+      transition: border-color 0.2s;
+    }
+    .temp-input:focus { border-color: var(--primary); }
+    .temp-select {
+      width: 100%; padding: 10px 10px;
+      border: 1px solid var(--border); border-radius: 8px;
+      background: white; font-size: 0.95rem; color: var(--text-dark); outline: none;
+      cursor: pointer;
+    }
+    .temp-convert-btn {
+      background: var(--primary); color: white;
+      border: none; padding: 11px 20px; border-radius: 8px;
+      font-size: 0.95rem; font-weight: 600; cursor: pointer;
+      white-space: nowrap; transition: background 0.2s;
+      align-self: flex-end;
+    }
+    .temp-convert-btn:hover { background: var(--secondary); }
+    .temp-result {
+      background: #f8fafc; border: 1px solid #eef2ff;
+      border-radius: 8px; padding: 16px; font-size: 1.1rem;
+      font-weight: 600; color: var(--text-dark); margin-top: 4px;
+    }
+    .temp-error { color: #dc2626; font-size: 0.85rem; margin-top: 6px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 680px) {
+      .about-content { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2rem; }
+      .exp-header { flex-direction: column; align-items: flex-start; }
+      .tab-btn { padding: 12px 16px; font-size: 0.82rem; }
+    }
+    @media (max-width: 420px) {
+      .calculator { width: 300px; padding: 14px; }
+      .calc-btn { padding: 12px; font-size: 15px; }
+      .calc-curr { font-size: 26px; }
+      .nav-menu { display: none; }
+    }
+
+    /* ══════════════════════════════
+       AURÀ E-COMMERCE PAGE (scoped under #page-aura)
+    ══════════════════════════════ */
+ #page-aura *, #page-aura *::before, #page-aura *::after { margin: 0; padding: 0; box-sizing: border-box; } #page-aura { scroll-behavior: smooth; font-size: 16px; } #page-aura {
+      --ink:      #0A0A0A;
+      --paper:    #F5F0EB;
+      --gold:     #C9A96E;
+      --gold-lt:  #E8D5B0;
+      --mid:      #2A2A2A;
+      --muted:    #888888;
+      --border:   #222222;
+      --white:    #FFFFFF;
+      --ff-disp:  'Playfair Display', Georgia, serif;
+      --ff-body:  'Inter', system-ui, sans-serif;
+      --ease:     cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    } #page-aura {
+      font-family: var(--ff-body);
+      background: var(--ink);
+      color: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    } #page-aura .nav {
+      position: fixed; top: 53px; left: 0; right: 0; z-index: 999;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px;
+      height: 72px;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: background 0.3s var(--ease);
+    } #page-aura .nav-logo {
+      font-family: var(--ff-disp);
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--white);
+      text-decoration: none;
+    } #page-aura .nav-logo span { color: var(--gold); } #page-aura .nav-links {
+      display: flex; align-items: center; gap: 36px;
+      list-style: none;
+    } #page-aura .nav-links a {
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(255,255,255,0.65);
+      text-decoration: none; transition: color 0.2s;
+      position: relative;
+    } #page-aura .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--gold);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.25s var(--ease);
+    } #page-aura .nav-links a:hover { color: var(--white); } #page-aura .nav-links a:hover::after { transform: scaleX(1); } #page-aura .nav-actions { display: flex; align-items: center; gap: 20px; } #page-aura .nav-icon {
+      color: rgba(255,255,255,0.65); font-size: 1rem;
+      cursor: pointer; transition: color 0.2s; position: relative;
+      background: none; border: none; padding: 0;
+    } #page-aura .nav-icon:hover { color: var(--white); } #page-aura .cart-badge {
+      position: absolute; top: -6px; right: -6px;
+      background: var(--gold); color: var(--ink);
+      font-size: 0.6rem; font-weight: 700;
+      width: 16px; height: 16px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    } #page-aura .nav-cta {
+      padding: 9px 22px; font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      background: var(--gold); color: var(--ink);
+      border: none; border-radius: 2px; cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    } #page-aura .nav-cta:hover { background: var(--gold-lt); transform: translateY(-1px); } #page-aura .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; } #page-aura .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--white); transition: all 0.3s; } #page-aura .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 72px;
+    } #page-aura .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 80px 64px 80px 48px;
+      position: relative;
+    } #page-aura .hero-eyebrow {
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px;
+    } #page-aura .hero-eyebrow::before {
+      content: ''; display: inline-block;
+      width: 32px; height: 1px; background: var(--gold);
+    } #page-aura .hero-headline {
+      font-family: var(--ff-disp);
+      font-size: clamp(3rem, 5vw, 5rem);
+      font-weight: 700;
+      line-height: 1.06;
+      letter-spacing: -0.01em;
+      margin-bottom: 28px;
+      color: var(--white);
+    } #page-aura .hero-headline em {
+      font-style: italic; color: var(--gold);
+    } #page-aura .hero-sub {
+      font-size: 1rem; font-weight: 300;
+      color: rgba(255,255,255,0.55); line-height: 1.75;
+      max-width: 420px; margin-bottom: 44px;
+    } #page-aura .hero-actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; } #page-aura .btn-primary {
+      padding: 16px 36px; font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      background: var(--gold); color: var(--ink);
+      border: none; border-radius: 2px; cursor: pointer;
+      transition: all 0.25s var(--ease); text-decoration: none; display: inline-block;
+    } #page-aura .btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(201,169,110,0.3); } #page-aura .btn-ghost {
+      padding: 15px 36px; font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      background: transparent; color: var(--white);
+      border: 1px solid rgba(255,255,255,0.25); border-radius: 2px;
+      cursor: pointer; transition: all 0.25s var(--ease); text-decoration: none; display: inline-block;
+    } #page-aura .btn-ghost:hover { border-color: var(--gold); color: var(--gold); } #page-aura .hero-stats {
+      display: flex; gap: 40px; margin-top: 56px;
+      padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.08);
+    } #page-aura .stat-num {
+      font-family: var(--ff-disp); font-size: 2rem; font-weight: 600; color: var(--white);
+    } #page-aura .stat-label {
+      font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-top: 2px;
+    } #page-aura .hero-right {
+      position: relative; overflow: hidden;
+      background: var(--mid);
+    } #page-aura .hero-img-wrap {
+      position: absolute; inset: 0;
+    } #page-aura .hero-visual {
+      width: 100%; height: 100%;
+      background: linear-gradient(160deg, #1a1208 0%, #2a1f0e 40%, #0f0d08 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    } #page-aura .hero-visual::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 60% 40%, rgba(201,169,110,0.12) 0%, transparent 60%);
+    } #page-aura .product-showcase {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 0;
+    } #page-aura .showcase-label {
+      font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px; opacity: 0.8;
+    } #page-aura .showcase-product {
+      width: 260px; height: 340px;
+      background: linear-gradient(145deg, #f5f0eb 0%, #e8ddd0 50%, #d4c4aa 100%);
+      border-radius: 4px;
+      position: relative; overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,169,110,0.2);
+    } #page-aura .showcase-product::before {
+      content: '';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -52%);
+      width: 130px; height: 110px;
+      background: linear-gradient(160deg, #8b6914 0%, #c9a96e 40%, #a07820 100%);
+      clip-path: polygon(18% 0%, 82% 0%, 95% 8%, 100% 100%, 0% 100%, 5% 8%);
+      box-shadow: inset 0 -8px 16px rgba(0,0,0,0.2);
+    } #page-aura .showcase-product::after {
+      content: '';
+      position: absolute; top: calc(50% - 52% + -18px); left: 50%;
+      transform: translateX(-50%);
+      width: 60px; height: 24px;
+      border: 3px solid #8b6914;
+      border-bottom: none;
+      border-radius: 30px 30px 0 0;
+    } #page-aura .showcase-tag {
+      position: absolute; bottom: 20px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10,10,10,0.8);
+      padding: 8px 16px; border-radius: 2px;
+      text-align: center; white-space: nowrap;
+    } #page-aura .showcase-tag-name { font-size: 0.7rem; letter-spacing: 0.15em; color: var(--paper); text-transform: uppercase; } #page-aura .showcase-tag-price { font-size: 0.9rem; font-weight: 600; color: var(--gold); margin-top: 2px; } #page-aura .hero-badge {
+      position: absolute; bottom: 40px; right: 40px;
+      width: 80px; height: 80px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold); text-align: center; line-height: 1.4;
+      animation: spin 18s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } } #page-aura .ticker {
+      background: var(--gold);
+      overflow: hidden; padding: 13px 0;
+      position: relative;
+    } #page-aura .ticker-track {
+      display: flex; gap: 0;
+      white-space: nowrap;
+      animation: ticker 25s linear infinite;
+    } #page-aura .ticker-item {
+      display: inline-flex; align-items: center; gap: 16px;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink);
+      padding: 0 32px; flex-shrink: 0;
+    } #page-aura .ticker-dot { width: 4px; height: 4px; background: var(--ink); border-radius: 50%; opacity: 0.4; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } } #page-aura section { padding: 100px 48px; } #page-aura .section-head { text-align: center; margin-bottom: 64px; } #page-aura .section-eyebrow {
+      font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 14px; display: block;
+    } #page-aura .section-title {
+      font-family: var(--ff-disp); font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 600; color: var(--white); line-height: 1.15;
+    } #page-aura .section-title em { font-style: italic; color: var(--gold); } #page-aura #products { background: var(--ink); } #page-aura .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+      max-width: 1200px; margin: 0 auto;
+    } #page-aura .product-card {
+      background: var(--mid);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 3px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s;
+      position: relative;
+    } #page-aura .product-card:hover { transform: translateY(-6px); box-shadow: 0 24px 48px rgba(0,0,0,0.5); border-color: rgba(201,169,110,0.25); } #page-aura .product-card:hover .product-overlay { opacity: 1; } #page-aura .product-img {
+      width: 100%; aspect-ratio: 3/4;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    } #page-aura .product-img-1 { background: linear-gradient(145deg, #1c1208, #2e1f0a); } #page-aura .product-img-2 { background: linear-gradient(145deg, #080c1a, #0f1624); } #page-aura .product-img-3 { background: linear-gradient(145deg, #0d1508, #182408); } #page-aura .product-img-4 { background: linear-gradient(145deg, #1a0808, #2a0e0e); } #page-aura .product-img-5 { background: linear-gradient(145deg, #100f14, #1a1824); } #page-aura .product-img-6 { background: linear-gradient(145deg, #0e0d08, #1c1a0a); } #page-aura .prod-icon { font-size: 4rem; opacity: 0.6; color: var(--gold-lt); } #page-aura .product-badge {
+      position: absolute; top: 14px; left: 14px;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 2px;
+    } #page-aura .badge-new { background: var(--gold); color: var(--ink); } #page-aura .badge-sale { background: #c0392b; color: #fff; } #page-aura .badge-hot { background: #e67e22; color: #fff; } #page-aura .product-overlay {
+      position: absolute; inset: 0;
+      background: rgba(10,10,10,0.7);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s var(--ease);
+    } #page-aura .overlay-btn {
+      padding: 12px 28px; font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      background: var(--gold); color: var(--ink);
+      border: none; border-radius: 2px; cursor: pointer;
+      transition: background 0.2s;
+    } #page-aura .overlay-btn:hover { background: var(--gold-lt); } #page-aura .product-info { padding: 18px 20px 20px; } #page-aura .product-cat {
+      font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    } #page-aura .product-name {
+      font-family: var(--ff-disp); font-size: 1.05rem; font-weight: 600;
+      color: var(--white); margin-bottom: 10px; line-height: 1.3;
+    } #page-aura .product-foot { display: flex; align-items: center; justify-content: space-between; } #page-aura .product-price { font-size: 1rem; font-weight: 600; color: var(--gold); } #page-aura .product-price-old { font-size: 0.82rem; color: var(--muted); text-decoration: line-through; margin-left: 8px; } #page-aura .product-stars { color: var(--gold); font-size: 0.7rem; letter-spacing: 2px; } #page-aura .wishlist-btn {
+      background: none; border: none; color: var(--muted);
+      font-size: 1rem; cursor: pointer; transition: color 0.2s;
+      padding: 4px;
+    } #page-aura .wishlist-btn:hover { color: #e74c3c; } #page-aura #categories { background: #0d0d0d; border-top: 1px solid rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.04); } #page-aura .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 1200px; margin: 0 auto;
+    } #page-aura .cat-card {
+      position: relative; overflow: hidden;
+      border-radius: 3px; cursor: pointer;
+      aspect-ratio: 3/4;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: border-color 0.3s;
+    } #page-aura .cat-card:hover { border-color: rgba(201,169,110,0.3); } #page-aura .cat-card:hover .cat-bg { transform: scale(1.05); } #page-aura .cat-card:hover .cat-arrow { transform: translateX(4px); } #page-aura .cat-bg {
+      position: absolute; inset: 0;
+      transition: transform 0.5s var(--ease);
+    } #page-aura .cat-bg-1 { background: linear-gradient(160deg, #1a1310, #0d0905); } #page-aura .cat-bg-2 { background: linear-gradient(160deg, #0d1018, #080a10); } #page-aura .cat-bg-3 { background: linear-gradient(160deg, #10100d, #0a0a08); } #page-aura .cat-bg-4 { background: linear-gradient(160deg, #140e10, #0d080a); } #page-aura .cat-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 30%, rgba(201,169,110,0.1) 0%, transparent 65%);
+    } #page-aura .cat-icon {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -55%);
+      font-size: 3.5rem; color: rgba(201,169,110,0.35);
+    } #page-aura .cat-content {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 24px 20px;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+    } #page-aura .cat-name {
+      font-family: var(--ff-disp); font-size: 1.25rem; font-weight: 600;
+      color: var(--white); margin-bottom: 4px;
+    } #page-aura .cat-count { font-size: 0.7rem; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; } #page-aura .cat-arrow {
+      display: inline-block; margin-top: 10px;
+      color: var(--gold); font-size: 0.8rem;
+      transition: transform 0.25s var(--ease);
+    } #page-aura .promo-banner {
+      background: linear-gradient(100deg, #1a1208 0%, #0a0a0a 50%, #12100a 100%);
+      padding: 80px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 40px; flex-wrap: wrap;
+      border-top: 1px solid rgba(201,169,110,0.15);
+      border-bottom: 1px solid rgba(201,169,110,0.15);
+      position: relative; overflow: hidden;
+    } #page-aura .promo-banner::before {
+      content: '';
+      position: absolute; top: -80px; right: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(201,169,110,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    } #page-aura .promo-left { max-width: 560px; } #page-aura .promo-eyebrow {
+      font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+    } #page-aura .promo-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); display: inline-block; } #page-aura .promo-title {
+      font-family: var(--ff-disp); font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 700; line-height: 1.1; color: var(--white); margin-bottom: 16px;
+    } #page-aura .promo-title em { font-style: italic; color: var(--gold); } #page-aura .promo-sub { font-size: 0.95rem; color: rgba(255,255,255,0.5); line-height: 1.7; } #page-aura .promo-right { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; } #page-aura .promo-discount {
+      font-family: var(--ff-disp); font-size: 5rem; font-weight: 700;
+      color: var(--gold); line-height: 1; letter-spacing: -0.02em;
+    } #page-aura .promo-discount sup { font-size: 2rem; vertical-align: top; margin-top: 12px; } #page-aura .promo-code {
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); background: rgba(255,255,255,0.05);
+      padding: 6px 14px; border: 1px dashed rgba(201,169,110,0.3); border-radius: 2px;
+    } #page-aura .promo-code span { color: var(--gold); font-weight: 600; } #page-aura #features { background: var(--ink); } #page-aura .features-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: rgba(255,255,255,0.05);
+      max-width: 1200px; margin: 0 auto;
+      border: 1px solid rgba(255,255,255,0.05);
+    } #page-aura .feature-item {
+      background: var(--ink);
+      padding: 40px 32px; text-align: center;
+      transition: background 0.3s;
+    } #page-aura .feature-item:hover { background: var(--mid); } #page-aura .feature-icon {
+      font-size: 1.8rem; color: var(--gold);
+      margin-bottom: 16px; display: block;
+    } #page-aura .feature-title {
+      font-size: 0.9rem; font-weight: 600; letter-spacing: 0.05em;
+      color: var(--white); margin-bottom: 8px; text-transform: uppercase;
+    } #page-aura .feature-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.65; } #page-aura #auth {
+      background: linear-gradient(135deg, #0d0d0d 0%, #111008 100%);
+      display: flex; align-items: center; justify-content: center;
+      padding: 100px 48px;
+    } #page-aura .auth-container {
+      display: grid; grid-template-columns: 1fr 1fr;
+      max-width: 960px; width: 100%;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 4px; overflow: hidden;
+    } #page-aura .auth-left {
+      background: linear-gradient(145deg, #1a1208, #120e06);
+      padding: 60px 48px;
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative; overflow: hidden;
+    } #page-aura .auth-left::before {
+      content: '';
+      position: absolute; top: -40%; right: -40%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201,169,110,0.12) 0%, transparent 65%);
+    } #page-aura .auth-left-tag {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+    } #page-aura .auth-left h2 {
+      font-family: var(--ff-disp); font-size: 2.4rem; font-weight: 700;
+      line-height: 1.15; color: var(--white); margin-bottom: 20px;
+    } #page-aura .auth-left h2 em { font-style: italic; color: var(--gold); } #page-aura .auth-left p { font-size: 0.88rem; color: rgba(255,255,255,0.45); line-height: 1.75; margin-bottom: 32px; } #page-aura .auth-perks { list-style: none; display: flex; flex-direction: column; gap: 12px; } #page-aura .auth-perks li {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 0.82rem; color: rgba(255,255,255,0.6);
+    } #page-aura .auth-perks li i { color: var(--gold); font-size: 0.7rem; } #page-aura .auth-right { background: var(--mid); padding: 60px 48px; } #page-aura .auth-tabs {
+      display: flex; gap: 0; margin-bottom: 36px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    } #page-aura .auth-tab {
+      padding: 0 0 14px; margin-right: 28px;
+      font-size: 0.82rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted);
+      background: none; border: none; cursor: pointer;
+      border-bottom: 2px solid transparent; transition: all 0.2s;
+      transform: translateY(1px);
+    } #page-aura .auth-tab.active { color: var(--white); border-bottom-color: var(--gold); } #page-aura .auth-form { display: flex; flex-direction: column; gap: 16px; } #page-aura .auth-form.hidden { display: none; } #page-aura .form-group { display: flex; flex-direction: column; gap: 7px; } #page-aura .form-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.45); } #page-aura .form-input {
+      padding: 13px 16px; background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 2px;
+      font-size: 0.9rem; color: var(--white); outline: none;
+      transition: border-color 0.2s; font-family: var(--ff-body);
+    } #page-aura .form-input::placeholder { color: rgba(255,255,255,0.2); } #page-aura .form-input:focus { border-color: var(--gold); background: rgba(201,169,110,0.04); } #page-aura .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; } #page-aura .form-submit {
+      padding: 14px; margin-top: 6px;
+      background: var(--gold); color: var(--ink);
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; border: none; border-radius: 2px;
+      cursor: pointer; transition: all 0.25s var(--ease);
+    } #page-aura .form-submit:hover { background: var(--gold-lt); transform: translateY(-1px); } #page-aura .form-divider {
+      display: flex; align-items: center; gap: 14px;
+      color: rgba(255,255,255,0.2); font-size: 0.75rem;
+      margin: 4px 0;
+    } #page-aura .form-divider::before, #page-aura .form-divider::after {
+      content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.08);
+    } #page-aura .social-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; } #page-aura .social-btn {
+      padding: 11px; display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 2px; color: rgba(255,255,255,0.7); font-size: 0.78rem;
+      font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: var(--ff-body);
+    } #page-aura .social-btn:hover { background: rgba(255,255,255,0.09); color: var(--white); } #page-aura .form-note { font-size: 0.72rem; color: rgba(255,255,255,0.3); text-align: center; line-height: 1.6; } #page-aura .form-note a { color: var(--gold); text-decoration: none; } #page-aura .newsletter {
+      background: var(--gold);
+      padding: 64px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 32px; flex-wrap: wrap;
+    } #page-aura .newsletter-copy h3 {
+      font-family: var(--ff-disp); font-size: 1.9rem; font-weight: 700;
+      color: var(--ink); margin-bottom: 6px;
+    } #page-aura .newsletter-copy p { font-size: 0.88rem; color: rgba(10,10,10,0.6); } #page-aura .newsletter-form { display: flex; gap: 0; flex: 1; max-width: 440px; } #page-aura .nl-input {
+      flex: 1; padding: 14px 20px;
+      background: rgba(10,10,10,0.12); border: 1px solid rgba(10,10,10,0.2);
+      border-right: none; border-radius: 2px 0 0 2px;
+      font-size: 0.9rem; color: var(--ink); outline: none;
+      font-family: var(--ff-body);
+    } #page-aura .nl-input::placeholder { color: rgba(10,10,10,0.4); } #page-aura .nl-btn {
+      padding: 14px 24px; background: var(--ink); color: var(--gold);
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      border: none; border-radius: 0 2px 2px 0; cursor: pointer;
+      transition: background 0.2s; white-space: nowrap;
+    } #page-aura .nl-btn:hover { background: var(--mid); } #page-aura footer {
+      background: #060606;
+      padding: 72px 48px 32px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    } #page-aura .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px; max-width: 1200px; margin: 0 auto 56px;
+    } #page-aura .footer-brand-name {
+      font-family: var(--ff-disp); font-size: 1.8rem; font-weight: 700;
+      letter-spacing: 0.12em; color: var(--white); margin-bottom: 16px;
+    } #page-aura .footer-brand-name span { color: var(--gold); } #page-aura .footer-brand-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.75; max-width: 280px; margin-bottom: 28px; } #page-aura .footer-socials { display: flex; gap: 12px; } #page-aura .footer-social {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: 0.85rem;
+      cursor: pointer; transition: all 0.2s;
+    } #page-aura .footer-social:hover { border-color: var(--gold); color: var(--gold); } #page-aura .footer-col h4 {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--white); margin-bottom: 20px;
+    } #page-aura .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; } #page-aura .footer-links a {
+      font-size: 0.85rem; color: var(--muted); text-decoration: none;
+      transition: color 0.2s;
+    } #page-aura .footer-links a:hover { color: var(--gold); } #page-aura .footer-bottom {
+      max-width: 1200px; margin: 0 auto;
+      padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    } #page-aura .footer-bottom p { font-size: 0.78rem; color: rgba(255,255,255,0.25); } #page-aura .footer-bottom a { color: var(--gold); text-decoration: none; } #page-aura .payment-icons { display: flex; gap: 8px; align-items: center; } #page-aura .payment-icon {
+      background: rgba(255,255,255,0.06); padding: 4px 10px;
+      border-radius: 3px; font-size: 0.65rem; letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.4); font-weight: 600; text-transform: uppercase;
+    } #page-aura .mobile-menu {
+      position: fixed; inset: 0; z-index: 1500;
+      background: var(--ink);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 32px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s var(--ease);
+    } #page-aura .mobile-menu.open { opacity: 1; pointer-events: all; } #page-aura .mobile-menu a {
+      font-family: var(--ff-disp); font-size: 2rem; font-weight: 600;
+      color: var(--white); text-decoration: none; transition: color 0.2s;
+    } #page-aura .mobile-menu a:hover { color: var(--gold); } #page-aura .mobile-close {
+      position: absolute; top: 24px; right: 24px;
+      font-size: 1.5rem; color: var(--white);
+      background: none; border: none; cursor: pointer;
+    } #page-aura .toast {
+      position: fixed; bottom: 28px; right: 28px; z-index: 2000;
+      background: var(--gold); color: var(--ink);
+      padding: 13px 22px; border-radius: 3px;
+      font-size: 0.82rem; font-weight: 600;
+      display: flex; align-items: center; gap: 10px;
+      transform: translateY(80px); opacity: 0;
+      transition: all 0.35s var(--ease);
+      pointer-events: none; box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    } #page-aura .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ══════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════ */
+    @media (max-width: 1024px) { #page-aura .categories-grid { grid-template-columns: repeat(2, 1fr); } #page-aura .features-grid { grid-template-columns: repeat(2, 1fr); } #page-aura .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+    }
+
+    @media (max-width: 820px) { #page-aura .nav { padding: 0 24px; } #page-aura .nav-links, #page-aura .nav-cta { display: none; } #page-aura .hamburger { display: flex; } #page-aura .nav-actions .nav-icon:not(.cart-wrap) { display: none; } #page-aura .hero { grid-template-columns: 1fr; min-height: auto; } #page-aura .hero-left { padding: 60px 24px; text-align: center; align-items: center; } #page-aura .hero-eyebrow { justify-content: center; } #page-aura .hero-sub { max-width: 100%; } #page-aura .hero-right { min-height: 320px; } #page-aura .hero-stats { justify-content: center; } #page-aura section { padding: 72px 24px; } #page-aura .promo-banner { padding: 60px 24px; text-align: center; justify-content: center; } #page-aura .promo-right { align-items: center; } #page-aura .auth-container { grid-template-columns: 1fr; } #page-aura .auth-left { padding: 40px 32px; } #page-aura .auth-right { padding: 40px 32px; } #page-aura .newsletter { flex-direction: column; align-items: flex-start; padding: 48px 24px; } #page-aura .newsletter-form { max-width: 100%; width: 100%; } #page-aura .footer-grid { grid-template-columns: 1fr; gap: 32px; } #page-aura footer { padding: 56px 24px 28px; } #page-aura .form-row { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 540px) { #page-aura .categories-grid { grid-template-columns: 1fr 1fr; } #page-aura .hero-stats { flex-wrap: wrap; gap: 24px; } #page-aura .social-btns { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) { #page-aura *, #page-aura *::before, #page-aura *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  
+  </style>
+</head>
+<body>
+
+<!-- App Tab Bar -->
+<div class="app-tabs" role="tablist">
+  <button class="tab-btn active" data-tab="portfolio" role="tab">
+    <i class="fas fa-id-card" style="margin-right:6px"></i>Portfolio
+  </button>
+  <button class="tab-btn" data-tab="aura" role="tab"><i class="fas fa-bag-shopping" style="margin-right:6px"></i>AURÀ</button>
+  <button class="tab-btn" data-tab="calc" role="tab">
+    <i class="fas fa-calculator" style="margin-right:6px"></i>Calculator
+  </button>
+  <button class="tab-btn" data-tab="temp" role="tab">
+    <i class="fas fa-thermometer-half" style="margin-right:6px"></i>Temp Converter
+  </button>
+  <button class="tab-btn" data-tab="tasks" role="tab">
+    <i class="fas fa-list-check" style="margin-right:6px"></i>To-Do App
+  </button>
+</div>
+
+<!-- ══ PAGE: PORTFOLIO ══ -->
+<div id="page-portfolio" class="page active">
+
+  <nav class="port-nav">
+    <div class="container">
+      <div class="nav-brand">Giriprasath V</div>
+      <ul class="nav-menu" id="portNav">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <div class="profile-image"><i class="fas fa-user-circle"></i></div>
+      <h1>Giriprasath V</h1>
+      <p class="subtitle">EEE Student · MATLAB · Python · Circuits & Systems</p>
+      <p class="tagline">Sharing My Journey in Electronics & Innovation</p>
+      <div class="cta-buttons">
+        <a href="#contact" class="btn btn-primary">Get In Touch</a>
+        <a href="#skills" class="btn btn-secondary">View My Skills</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="port-section alt">
+    <div class="container">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <p>I am an Electrical and Electronics Engineering student with a strong interest in technology, problem-solving, and innovation. I'm passionate about learning and applying concepts in circuit design, embedded systems, and electrical machines.</p>
+          <p>I am actively seeking opportunities to gain practical experience through internships and projects, where I can enhance my technical skills and contribute to real-world solutions. I'm a quick learner, adaptable, and committed to continuous improvement.</p>
+          <p>I enjoy working in team environments and am always open to new challenges. Let's connect and grow together!</p>
+        </div>
+        <div class="about-highlights">
+          <div class="highlight-card"><i class="fas fa-graduation-cap"></i><h3>Education</h3><p>BE in Electrical & Electronics Engineering</p></div>
+          <div class="highlight-card"><i class="fas fa-bolt"></i><h3>Focus Areas</h3><p>Circuit Design & Embedded Systems</p></div>
+          <div class="highlight-card"><i class="fas fa-handshake"></i><h3>Open To</h3><p>Internships & Entry-level Opportunities</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="port-section">
+    <div class="container">
+      <h2 class="section-title">Top Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-card"><i class="fas fa-microchip"></i><h3>Circuit Design</h3><p>Proficient in circuit analysis and design principles</p></div>
+        <div class="skill-card"><i class="fas fa-puzzle-piece"></i><h3>Problem Solving</h3><p>Strong analytical and critical thinking skills</p></div>
+        <div class="skill-card"><i class="fas fa-lightbulb"></i><h3>Electronics</h3><p>Fundamental knowledge of electronic components and systems</p></div>
+        <div class="skill-card"><i class="fas fa-laptop-code"></i><h3>Programming</h3><p>MATLAB and Python for technical computing</p></div>
+        <div class="skill-card"><i class="fas fa-users"></i><h3>Communication</h3><p>Excellent team collaboration and presentation skills</p></div>
+        <div class="skill-card"><i class="fas fa-cogs"></i><h3>Electrical Fundamentals</h3><p>Strong foundation in electrical principles and theory</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" class="port-section alt">
+    <div class="container">
+      <h2 class="section-title">Experience</h2>
+      <div class="exp-card">
+        <div class="exp-header">
+          <h3>Engineering Student</h3>
+          <span class="badge badge-blue">Jerusalem College of Engineering</span>
+        </div>
+        <p class="exp-duration">September 2023 – Present</p>
+        <p class="exp-location"><i class="fas fa-map-marker-alt"></i> Chennai, India</p>
+        <ul class="exp-details">
+          <li>Studying core subjects in Electrical and Electronics Engineering</li>
+          <li>Gaining knowledge in circuit analysis, electrical machines, and electronics</li>
+          <li>Participating in academic projects and practical lab work</li>
+          <li>Developing problem-solving and analytical skills through coursework</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" class="port-section">
+    <div class="container">
+      <h2 class="section-title">Education</h2>
+      <div class="edu-card">
+        <div>
+          <h3 style="font-size:1.6rem;margin-bottom:10px">Bachelor of Engineering (BE)</h3>
+          <span class="badge badge-amber">Electrical and Electronics Engineering</span>
+        </div>
+        <p class="institution">Jerusalem College of Engineering – India</p>
+        <p class="edu-duration"><i class="fas fa-calendar"></i> September 2023 – June 2027</p>
+        <span class="status-badge">Currently Pursuing</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="port-section alt">
+    <div class="container">
+      <h2 class="section-title">Get In Touch</h2>
+      <p class="contact-intro">I'm always open to new opportunities and would love to connect!</p>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <i class="fas fa-envelope"></i>
+          <h3>Email</h3>
+          <a href="mailto:giriprasathv07@gmail.com">giriprasathv07@gmail.com</a>
+        </div>
+        <div class="contact-card">
+          <i class="fab fa-linkedin"></i>
+          <h3>LinkedIn</h3>
+          <a href="https://www.linkedin.com/in/giriprasath-v-ba186838b" target="_blank">linkedin.com/in/giriprasath-v</a>
+        </div>
+        <div class="contact-card">
+          <i class="fas fa-map-marker-alt"></i>
+          <h3>Location</h3>
+          <p>Chennai, Tamil Nadu, India</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="port-footer">
+    <div class="container">
+      <p>© 2024 Giriprasath V. All rights reserved.</p>
+      <div class="social-links">
+        <a href="https://www.linkedin.com/in/giriprasath-v-ba186838b" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="mailto:giriprasathv07@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ══ PAGE: CALCULATOR ══ -->
+<div id="page-calc" class="page">
+  <div class="calculator" role="application" aria-label="Calculator">
+    <div class="calc-screen" aria-live="polite">
+      <div class="calc-prev" id="calcPrev"></div>
+      <div class="calc-curr" id="calcCurr">0</div>
+    </div>
+    <div class="calc-keys">
+      <button class="calc-btn calc-fn" data-action="clear">C</button>
+      <button class="calc-btn calc-fn" data-action="toggle-sign">+/−</button>
+      <button class="calc-btn calc-fn" data-action="percent">%</button>
+      <button class="calc-btn calc-op" data-action="/">÷</button>
+      <button class="calc-btn" data-num="7">7</button>
+      <button class="calc-btn" data-num="8">8</button>
+      <button class="calc-btn" data-num="9">9</button>
+      <button class="calc-btn calc-op" data-action="*">×</button>
+      <button class="calc-btn" data-num="4">4</button>
+      <button class="calc-btn" data-num="5">5</button>
+      <button class="calc-btn" data-num="6">6</button>
+      <button class="calc-btn calc-op" data-action="-">−</button>
+      <button class="calc-btn" data-num="1">1</button>
+      <button class="calc-btn" data-num="2">2</button>
+      <button class="calc-btn" data-num="3">3</button>
+      <button class="calc-btn calc-op" data-action="+">+</button>
+      <button class="calc-btn calc-zero" data-num="0">0</button>
+      <button class="calc-btn" data-num=".">.</button>
+      <button class="calc-btn calc-eq" data-action="=">=</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: TEMPERATURE CONVERTER ══ -->
+<div id="page-temp" class="page">
+  <div class="temp-card">
+    <h2><i class="fas fa-thermometer-half" style="color:var(--primary);margin-right:8px"></i>Temperature Converter</h2>
+    <div class="temp-row">
+      <div class="temp-field" style="flex:2">
+        <label class="temp-label" for="tempInput">Enter temperature</label>
+        <input class="temp-input" id="tempInput" type="text" inputmode="decimal" placeholder="e.g. 36.6 or −40" />
+      </div>
+      <div class="temp-field">
+        <label class="temp-label" for="fromUnit">From</label>
+        <select class="temp-select" id="fromUnit">
+          <option value="C">Celsius (°C)</option>
+          <option value="F">Fahrenheit (°F)</option>
+          <option value="K">Kelvin (K)</option>
+        </select>
+      </div>
+      <div class="temp-field">
+        <label class="temp-label" for="toUnit">To</label>
+        <select class="temp-select" id="toUnit">
+          <option value="F">Fahrenheit (°F)</option>
+          <option value="C">Celsius (°C)</option>
+          <option value="K">Kelvin (K)</option>
+        </select>
+      </div>
+      <button class="temp-convert-btn" id="convertBtn">Convert</button>
+    </div>
+    <div id="tempError" class="temp-error" role="alert" aria-live="polite"></div>
+    <div class="temp-result" id="tempResult" aria-live="polite">Enter a value, choose units, and press Convert.</div>
+  </div>
+</div>
+
+
+<div id="page-aura" class="page">
+
+
+<!-- ══ MOBILE MENU ══ -->
+<div class="mobile-menu" id="auraMobileMenu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <button class="mobile-close" id="auraMenuClose" aria-label="Close menu"><i class="fas fa-times"></i></button>
+  <a href="#aura-products">Shop</a>
+  <a href="#aura-categories">Categories</a>
+  <a href="#aura-features">Why Aurà</a>
+  <a href="#aura-auth">Sign In</a>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <a href="#" class="nav-logo">AUR<span>À</span></a>
+  <ul class="nav-links">
+    <li><a href="#aura-products">Shop</a></li>
+    <li><a href="#aura-categories">Categories</a></li>
+    <li><a href="#aura-features">Why Aurà</a></li>
+    <li><a href="#aura-auth">Account</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="nav-icon" aria-label="Search"><i class="fas fa-search"></i></button>
+    <button class="nav-icon cart-wrap" aria-label="Cart, 3 items">
+      <i class="fas fa-bag-shopping"></i>
+      <span class="cart-badge">3</span>
+    </button>
+    <button class="nav-cta" onclick="auraScrollToAuth()">Sign In</button>
+    <button class="hamburger" id="auraMenuOpen" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="aura-home" aria-label="Hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">New Season · 2025</p>
+    <h1 class="hero-headline">
+      Wear What<br>Tells Your<br><em>Story.</em>
+    </h1>
+    <p class="hero-sub">Curated pieces for those who know the difference between fashion and style. Discover our new arrival edit — crafted for the quietly confident.</p>
+    <div class="hero-actions">
+      <a href="#aura-products" class="btn-primary">Shop New Arrivals</a>
+      <a href="#aura-categories" class="btn-ghost">Browse Categories</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">12K+</div>
+        <div class="stat-label">Products</div>
+      </div>
+      <div>
+        <div class="stat-num">98%</div>
+        <div class="stat-label">Satisfaction</div>
+      </div>
+      <div>
+        <div class="stat-num">85+</div>
+        <div class="stat-label">Brands</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right" aria-hidden="true">
+    <div class="hero-visual">
+      <div class="product-showcase">
+        <span class="showcase-label">Featured Drop</span>
+        <div class="showcase-product">
+          <div class="showcase-tag">
+            <div class="showcase-tag-name">Maison Tote</div>
+            <div class="showcase-tag-price">$348</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-badge" aria-hidden="true">
+        <span>New<br>Season<br>2025</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TICKER ══ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="auraTickerTrack">
+    <span class="ticker-item">Free Shipping Over $150 <span class="ticker-dot"></span></span>
+    <span class="ticker-item">New Arrivals Weekly <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Exclusive Member Discounts <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Complimentary Gift Wrapping <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Easy 30-Day Returns <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Authenticated Luxury Goods <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Free Shipping Over $150 <span class="ticker-dot"></span></span>
+    <span class="ticker-item">New Arrivals Weekly <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Exclusive Member Discounts <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Complimentary Gift Wrapping <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Easy 30-Day Returns <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Authenticated Luxury Goods <span class="ticker-dot"></span></span>
+  </div>
+</div>
+
+<!-- ══ FEATURED PRODUCTS ══ -->
+<section id="aura-products">
+  <div class="section-head">
+    <span class="section-eyebrow">Featured Edit</span>
+    <h2 class="section-title">This Season's <em>Essentials</em></h2>
+  </div>
+  <div class="products-grid">
+
+    <div class="product-card">
+      <div class="product-img product-img-1">
+        <i class="fas fa-bag-shopping prod-icon"></i>
+        <span class="product-badge badge-new">New</span>
+        <div class="product-overlay">
+          <button class="overlay-btn" onclick="auraAddToCart('Maison Tote')">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Bags & Accessories</div>
+        <div class="product-name">Maison Tote in Cognac</div>
+        <div class="product-foot">
+          <div><span class="product-price">$348</span></div>
+          <div>
+            <span class="product-stars">★★★★★</span>
+            <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img product-img-2">
+        <i class="fas fa-vest prod-icon"></i>
+        <span class="product-badge badge-hot">Hot</span>
+        <div class="product-overlay">
+          <button class="overlay-btn" onclick="auraAddToCart('Silk Blazer')">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Outerwear</div>
+        <div class="product-name">Silk Lapel Blazer, Navy</div>
+        <div class="product-foot">
+          <div><span class="product-price">$520</span></div>
+          <div>
+            <span class="product-stars">★★★★☆</span>
+            <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img product-img-3">
+        <i class="fas fa-shoe-prints prod-icon"></i>
+        <span class="product-badge badge-sale">Sale</span>
+        <div class="product-overlay">
+          <button class="overlay-btn" onclick="auraAddToCart('Derby Shoes')">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Footwear</div>
+        <div class="product-name">Leather Derby, Chocolate</div>
+        <div class="product-foot">
+          <div><span class="product-price">$189</span><span class="product-price-old">$265</span></div>
+          <div>
+            <span class="product-stars">★★★★★</span>
+            <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img product-img-4">
+        <i class="fas fa-glasses prod-icon"></i>
+        <span class="product-badge badge-new">New</span>
+        <div class="product-overlay">
+          <button class="overlay-btn" onclick="auraAddToCart('Sunglasses')">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Eyewear</div>
+        <div class="product-name">Architect Frames, Tortoise</div>
+        <div class="product-foot">
+          <div><span class="product-price">$285</span></div>
+          <div>
+            <span class="product-stars">★★★★☆</span>
+            <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img product-img-5">
+        <i class="fas fa-mitten prod-icon"></i>
+        <div class="product-overlay">
+          <button class="overlay-btn" onclick="auraAddToCart('Cashmere Gloves')">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Accessories</div>
+        <div class="product-name">Cashmere Gloves, Midnight</div>
+        <div class="product-foot">
+          <div><span class="product-price">$145</span></div>
+          <div>
+            <span class="product-stars">★★★★★</span>
+            <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img product-img-6">
+        <i class="fas fa-gem prod-icon"></i>
+        <span class="product-badge badge-hot">Hot</span>
+        <div class="product-overlay">
+          <button class="overlay-btn" onclick="auraAddToCart('Gold Necklace')">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Jewellery</div>
+        <div class="product-name">Chain Pendant, 18k Gold</div>
+        <div class="product-foot">
+          <div><span class="product-price">$420</span></div>
+          <div>
+            <span class="product-stars">★★★★★</span>
+            <button class="wishlist-btn" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ CATEGORIES ══ -->
+<section id="aura-categories">
+  <div class="section-head">
+    <span class="section-eyebrow">Shop by Category</span>
+    <h2 class="section-title">Explore the <em>Collection</em></h2>
+  </div>
+  <div class="categories-grid">
+    <div class="cat-card">
+      <div class="cat-bg cat-bg-1"></div>
+      <div class="cat-glow"></div>
+      <i class="fas fa-person cat-icon"></i>
+      <div class="cat-content">
+        <div class="cat-name">Men</div>
+        <div class="cat-count">214 pieces</div>
+        <span class="cat-arrow">Explore →</span>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-bg cat-bg-2"></div>
+      <div class="cat-glow"></div>
+      <i class="fas fa-person-dress cat-icon"></i>
+      <div class="cat-content">
+        <div class="cat-name">Women</div>
+        <div class="cat-count">328 pieces</div>
+        <span class="cat-arrow">Explore →</span>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-bg cat-bg-3"></div>
+      <div class="cat-glow"></div>
+      <i class="fas fa-bag-shopping cat-icon"></i>
+      <div class="cat-content">
+        <div class="cat-name">Accessories</div>
+        <div class="cat-count">156 pieces</div>
+        <span class="cat-arrow">Explore →</span>
+      </div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-bg cat-bg-4"></div>
+      <div class="cat-glow"></div>
+      <i class="fas fa-gem cat-icon"></i>
+      <div class="cat-content">
+        <div class="cat-name">Fine Jewels</div>
+        <div class="cat-count">89 pieces</div>
+        <span class="cat-arrow">Explore →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROMO BANNER ══ -->
+<div class="promo-banner">
+  <div class="promo-left">
+    <div class="promo-eyebrow">Limited Time Offer</div>
+    <h2 class="promo-title">Summer Sale.<br>Up To <em>40% Off</em>.</h2>
+    <p class="promo-sub">Our most-loved pieces, now at their best prices. Sign up to unlock early access — members always shop first.</p>
+    <br>
+    <a href="#aura-auth" class="btn-primary" style="margin-top:8px">Unlock Access</a>
+  </div>
+  <div class="promo-right">
+    <div class="promo-discount"><sup>up to</sup>40<sup>%</sup></div>
+    <div class="promo-code">Use code <span>AURA40</span> at checkout</div>
+  </div>
+</div>
+
+<!-- ══ FEATURES ══ -->
+<section id="aura-features">
+  <div class="section-head">
+    <span class="section-eyebrow">The Aurà Promise</span>
+    <h2 class="section-title">Why Shop <em>With Us</em></h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-item">
+      <span class="feature-icon"><i class="fas fa-truck-fast"></i></span>
+      <div class="feature-title">Swift Delivery</div>
+      <p class="feature-desc">Free express shipping on orders over $150. Arrives in 2–3 business days, beautifully packed.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon"><i class="fas fa-rotate-left"></i></span>
+      <div class="feature-title">Easy Returns</div>
+      <p class="feature-desc">30 days to change your mind. Free collection from your door, no questions asked.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon"><i class="fas fa-shield-halved"></i></span>
+      <div class="feature-title">Authenticity Guaranteed</div>
+      <p class="feature-desc">Every item is verified by our team of experts before it ships. Your trust is our standard.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-icon"><i class="fas fa-headset"></i></span>
+      <div class="feature-title">Personal Styling</div>
+      <p class="feature-desc">Members get access to our style concierge. One-on-one curation, whenever you need it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ AUTH ══ -->
+<section id="aura-auth">
+  <div class="auth-container">
+    <div class="auth-left">
+      <div class="auth-left-tag">Members Only</div>
+      <h2>Your Personal<br><em>Wardrobe</em><br>Awaits.</h2>
+      <p>Create an account to unlock early access, personalised picks, and exclusive member pricing.</p>
+      <ul class="auth-perks">
+        <li><i class="fas fa-star"></i> Early access to new arrivals</li>
+        <li><i class="fas fa-star"></i> Exclusive member discounts</li>
+        <li><i class="fas fa-star"></i> Personal style recommendations</li>
+        <li><i class="fas fa-star"></i> Priority customer support</li>
+        <li><i class="fas fa-star"></i> Free gift wrapping, always</li>
+      </ul>
+    </div>
+    <div class="auth-right">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="auraTabSignup" onclick="auraSwitchTab('signup')">Create Account</button>
+        <button class="auth-tab" id="auraTabLogin" onclick="auraSwitchTab('login')">Sign In</button>
+      </div>
+
+      <!-- Sign Up -->
+      <form class="auth-form" id="auraFormSignup" onsubmit="auraHandleSignup(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="firstName">First Name</label>
+            <input class="form-input" id="auraFirstName" type="text" placeholder="James" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="lastName">Last Name</label>
+            <input class="form-input" id="auraLastName" type="text" placeholder="Porter" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="signupEmail">Email</label>
+          <input class="form-input" id="auraSignupEmail" type="email" placeholder="james@example.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="signupPassword">Password</label>
+          <input class="form-input" id="auraSignupPassword" type="password" placeholder="Min. 8 characters" required minlength="8" />
+        </div>
+        <button type="submit" class="form-submit">Create My Account</button>
+        <div class="form-divider">or continue with</div>
+        <div class="social-btns">
+          <button type="button" class="social-btn"><i class="fab fa-google"></i> Google</button>
+          <button type="button" class="social-btn"><i class="fab fa-apple"></i> Apple</button>
+        </div>
+        <p class="form-note">By creating an account you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
+      </form>
+
+      <!-- Sign In -->
+      <form class="auth-form hidden" id="auraFormLogin" onsubmit="auraHandleLogin(event)">
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">Email</label>
+          <input class="form-input" id="auraLoginEmail" type="email" placeholder="james@example.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Password</label>
+          <input class="form-input" id="auraLoginPassword" type="password" placeholder="Your password" required />
+        </div>
+        <button type="submit" class="form-submit">Sign In</button>
+        <div class="form-divider">or continue with</div>
+        <div class="social-btns">
+          <button type="button" class="social-btn"><i class="fab fa-google"></i> Google</button>
+          <button type="button" class="social-btn"><i class="fab fa-apple"></i> Apple</button>
+        </div>
+        <p class="form-note"><a href="#">Forgot your password?</a> · <a href="#" onclick="auraSwitchTab('signup');return false;">Create an account</a></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NEWSLETTER ══ -->
+<div class="newsletter">
+  <div class="newsletter-copy">
+    <h3>Stay in the Edit.</h3>
+    <p>Weekly drops, style notes, and exclusive previews — straight to your inbox.</p>
+  </div>
+  <form class="newsletter-form" onsubmit="auraHandleNewsletter(event)">
+    <input class="nl-input" type="email" placeholder="Your email address" required />
+    <button type="submit" class="nl-btn">Subscribe</button>
+  </form>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">AUR<span>À</span></div>
+      <p class="footer-brand-desc">Refined essentials for the modern wardrobe. Every piece selected with intention, crafted to endure.</p>
+      <div class="footer-socials">
+        <div class="footer-social" role="button" aria-label="Instagram"><i class="fab fa-instagram"></i></div>
+        <div class="footer-social" role="button" aria-label="Pinterest"><i class="fab fa-pinterest"></i></div>
+        <div class="footer-social" role="button" aria-label="Twitter"><i class="fab fa-x-twitter"></i></div>
+        <div class="footer-social" role="button" aria-label="TikTok"><i class="fab fa-tiktok"></i></div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul class="footer-links">
+        <li><a href="#">New Arrivals</a></li>
+        <li><a href="#">Men</a></li>
+        <li><a href="#">Women</a></li>
+        <li><a href="#">Accessories</a></li>
+        <li><a href="#">Sale</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <ul class="footer-links">
+        <li><a href="#">Shipping & Returns</a></li>
+        <li><a href="#">Size Guide</a></li>
+        <li><a href="#">Track Order</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul class="footer-links">
+        <li><a href="#">About Aurà</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Affiliates</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Aurà. All rights reserved. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+    <div class="payment-icons">
+      <span class="payment-icon">Visa</span>
+      <span class="payment-icon">MC</span>
+      <span class="payment-icon">Amex</span>
+      <span class="payment-icon">Apple Pay</span>
+      <span class="payment-icon">GPay</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="auraToast" aria-live="polite"></div>
+
+
+</div>
+
+<!-- ══ PAGE: TASKS ══ -->
+<div id="page-tasks" class="page">
+  <style>
+    #page-tasks{
+      min-height:100vh;
+      padding:40px 20px;
+      background:linear-gradient(135deg,#0f172a,#111827,#1e293b);
+      color:white;
+    }
+    #page-tasks *{box-sizing:border-box; font-family:Arial, sans-serif;}
+    #page-tasks .tm-main-container{
+      max-width:1300px; margin:auto; display:grid;
+      grid-template-columns:350px 1fr; gap:30px;
+    }
+    #page-tasks .tm-left-panel{
+      background:rgba(255,255,255,0.08); backdrop-filter:blur(15px);
+      border-radius:25px; padding:30px; box-shadow:0 15px 35px rgba(0,0,0,0.3);
+      height:fit-content;
+    }
+    #page-tasks .tm-left-panel h1{ font-size:36px; margin-bottom:15px; color:#f8fafc; }
+    #page-tasks .tm-left-panel p{ color:#cbd5e1; line-height:1.7; margin-bottom:30px; }
+    #page-tasks .tm-left-panel input{
+      width:100%; padding:16px; border:none; outline:none; border-radius:15px;
+      background:rgba(255,255,255,0.12); color:white; margin-bottom:20px; font-size:16px;
+    }
+    #page-tasks .tm-left-panel input::placeholder{ color:#cbd5e1; }
+    #page-tasks .tm-left-panel button{
+      width:100%; padding:16px; border:none; border-radius:15px;
+      background:linear-gradient(to right,#6366f1,#8b5cf6); color:white;
+      font-size:17px; cursor:pointer; transition:0.3s; margin-bottom:30px;
+    }
+    #page-tasks .tm-left-panel button:hover{ transform:translateY(-4px); box-shadow:0 10px 20px rgba(99,102,241,0.3); }
+    #page-tasks .tm-stats{ display:flex; gap:15px; }
+    #page-tasks .tm-stat-box{ flex:1; background:rgba(255,255,255,0.08); padding:20px; border-radius:18px; text-align:center; }
+    #page-tasks .tm-stat-box h2{ font-size:32px; margin-bottom:8px; color:#38bdf8; }
+    #page-tasks .tm-stat-box span{ color:#cbd5e1; }
+    #page-tasks .tm-right-panel{
+      background:rgba(255,255,255,0.08); backdrop-filter:blur(15px);
+      border-radius:25px; padding:30px; box-shadow:0 15px 35px rgba(0,0,0,0.3);
+    }
+    #page-tasks .tm-task-header{ margin-bottom:30px; }
+    #page-tasks .tm-task-header h2{ font-size:34px; color:#f8fafc; }
+    #page-tasks #tm-taskList{ list-style:none; }
+    #page-tasks .tm-task-item{
+      display:flex; justify-content:space-between; align-items:center;
+      background:rgba(255,255,255,0.08); border-left:6px solid #8b5cf6;
+      padding:22px; border-radius:18px; margin-bottom:20px; transition:0.3s;
+    }
+    #page-tasks .tm-task-item:hover{ transform:translateY(-5px); background:rgba(255,255,255,0.12); }
+    #page-tasks .tm-task-text{ flex:1; font-size:18px; line-height:1.6; cursor:pointer; }
+    #page-tasks .tm-completed{ text-decoration:line-through; color:#94a3b8; }
+    #page-tasks .tm-actions{ display:flex; gap:12px; }
+    #page-tasks .tm-complete-btn{
+      border:none; padding:12px 16px; border-radius:12px; cursor:pointer;
+      background:linear-gradient(to right,#06b6d4,#3b82f6); color:white; transition:0.3s;
+    }
+    #page-tasks .tm-complete-btn:hover{ transform:scale(1.05); }
+    #page-tasks .tm-delete-btn{
+      border:none; padding:12px 16px; border-radius:12px; cursor:pointer;
+      background:linear-gradient(to right,#ef4444,#dc2626); color:white; transition:0.3s;
+    }
+    #page-tasks .tm-delete-btn:hover{ transform:scale(1.05); }
+    @media(max-width:900px){
+      #page-tasks .tm-main-container{ grid-template-columns:1fr; }
+    }
+    @media(max-width:600px){
+      #page-tasks{ padding:20px 15px; }
+      #page-tasks .tm-left-panel, #page-tasks .tm-right-panel{ padding:22px; }
+      #page-tasks .tm-task-item{ flex-direction:column; align-items:flex-start; gap:18px; }
+      #page-tasks .tm-actions{ width:100%; }
+      #page-tasks .tm-actions button{ flex:1; }
+      #page-tasks .tm-stats{ flex-direction:column; }
+    }
+  </style>
+
+  <div class="tm-main-container">
+
+    <!-- LEFT PANEL -->
+    <div class="tm-left-panel">
+
+      <h1>📋 Task Manager</h1>
+
+      <p>
+        Manage your daily tasks efficiently
+        and stay productive throughout the day.
+      </p>
+
+      <input
+        type="text"
+        id="tm-taskInput"
+        placeholder="Enter your task..."
+      >
+
+      <button onclick="tmAddTask()">➕ Add Task</button>
+
+      <div class="tm-stats">
+        <div class="tm-stat-box">
+          <h2 id="tm-totalTasks">0</h2>
+          <span>Total Tasks</span>
+        </div>
+        <div class="tm-stat-box">
+          <h2 id="tm-completedTasks">0</h2>
+          <span>Completed</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="tm-right-panel">
+      <div class="tm-task-header">
+        <h2>📌 Your Tasks</h2>
+      </div>
+      <ul id="tm-taskList"></ul>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ────────────────────────────────
+   TASK MANAGER LOGIC
+──────────────────────────────── */
+let tmTaskInput = document.getElementById("tm-taskInput");
+let tmTaskList = document.getElementById("tm-taskList");
+let tmTotalTasks = document.getElementById("tm-totalTasks");
+let tmCompletedTasks = document.getElementById("tm-completedTasks");
+
+tmLoadTasks();
+tmUpdateStats();
+
+function tmAddTask(){
+  let taskText = tmTaskInput.value.trim();
+  if(taskText === ""){
+    alert("Please enter a task!");
+    return;
+  }
+  tmCreateTask(taskText);
+  tmUpdateLocalStorage();
+  tmUpdateStats();
+  tmTaskInput.value = "";
+}
+
+function tmCreateTask(taskText, completed = false){
+  let li = document.createElement("li");
+  li.classList.add("tm-task-item");
+
+  let span = document.createElement("span");
+  span.classList.add("tm-task-text");
+  span.innerText = taskText;
+  if(completed){ span.classList.add("tm-completed"); }
+
+  let actions = document.createElement("div");
+  actions.classList.add("tm-actions");
+
+  let completeBtn = document.createElement("button");
+  completeBtn.innerText = "Done";
+  completeBtn.classList.add("tm-complete-btn");
+  completeBtn.onclick = function(){
+    span.classList.toggle("tm-completed");
+    tmUpdateLocalStorage();
+    tmUpdateStats();
+  };
+
+  let deleteBtn = document.createElement("button");
+  deleteBtn.innerText = "Delete";
+  deleteBtn.classList.add("tm-delete-btn");
+  deleteBtn.onclick = function(){
+    li.remove();
+    tmUpdateLocalStorage();
+    tmUpdateStats();
+  };
+
+  actions.appendChild(completeBtn);
+  actions.appendChild(deleteBtn);
+  li.appendChild(span);
+  li.appendChild(actions);
+  tmTaskList.appendChild(li);
+}
+
+function tmUpdateLocalStorage(){
+  let tasks = [];
+  document.querySelectorAll(".tm-task-item").forEach(task => {
+    tasks.push({
+      text: task.querySelector(".tm-task-text").innerText,
+      completed: task.querySelector(".tm-task-text").classList.contains("tm-completed")
+    });
+  });
+  localStorage.setItem("tm-tasks", JSON.stringify(tasks));
+}
+
+function tmLoadTasks(){
+  let tasks = JSON.parse(localStorage.getItem("tm-tasks")) || [];
+  tasks.forEach(task => { tmCreateTask(task.text, task.completed); });
+}
+
+function tmUpdateStats(){
+  let tasks = document.querySelectorAll(".tm-task-item");
+  let completed = document.querySelectorAll(".tm-completed");
+  tmTotalTasks.innerText = tasks.length;
+  tmCompletedTasks.innerText = completed.length;
+}
+</script>
+
+<script>
+/* ────────────────────────────────
+   TAB SWITCHER
+──────────────────────────────── */
+const tabBtns = document.querySelectorAll('.tab-btn');
+const pages = document.querySelectorAll('.page');
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    tabBtns.forEach(b => b.classList.remove('active'));
+    pages.forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('page-' + target).classList.add('active');
+    window.scrollTo(0, 0);
+  });
+});
+
+/* ────────────────────────────────
+   PORTFOLIO – smooth scroll + nav highlight
+──────────────────────────────── */
+document.querySelectorAll('#portNav a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const el = document.querySelector(a.getAttribute('href'));
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// Scroll-spy for portfolio nav
+const portPage = document.getElementById('page-portfolio');
+portPage.addEventListener('scroll', onPortScroll, { passive: true });
+window.addEventListener('scroll', onPortScroll, { passive: true });
+
+function onPortScroll() {
+  if (!portPage.classList.contains('active')) return;
+  const sections = portPage.querySelectorAll('section[id]');
+  let cur = '';
+  sections.forEach(s => {
+    if (window.pageYOffset >= s.offsetTop - 180) cur = s.id;
+  });
+  document.querySelectorAll('#portNav a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+  });
+}
+
+// Scroll-reveal for cards
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+
+document.querySelectorAll('.skill-card, .highlight-card, .contact-card, .exp-card, .edu-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(18px)';
+  el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+  io.observe(el);
+});
+
+// Page fade-in
+document.body.style.opacity = '0';
+document.body.style.transition = 'opacity 0.4s ease';
+setTimeout(() => { document.body.style.opacity = '1'; }, 80);
+
+/* ────────────────────────────────
+   CALCULATOR
+──────────────────────────────── */
+const currEl = document.getElementById('calcCurr');
+const prevEl = document.getElementById('calcPrev');
+let cur = '0', prev = null, op = null, overwrite = false;
+
+function updateCalc() {
+  currEl.textContent = cur;
+  prevEl.textContent = prev !== null && op ? `${prev} ${op === '*' ? '×' : op === '/' ? '÷' : op}` : '';
+}
+
+function appendNum(n) {
+  if (overwrite) { cur = '0'; overwrite = false; }
+  if (n === '.' && cur.includes('.')) return;
+  cur = (cur === '0' && n !== '.') ? n : cur + n;
+}
+
+function chooseOp(o) {
+  if (op && !overwrite) compute();
+  prev = cur; op = o; overwrite = true;
+}
+
+function compute() {
+  if (!op || prev === null) return;
+  const a = parseFloat(prev), b = parseFloat(cur);
+  if (isNaN(a) || isNaN(b)) return;
+  let r;
+  switch (op) {
+    case '+': r = a + b; break;
+    case '-': r = a - b; break;
+    case '*': r = a * b; break;
+    case '/': r = b === 0 ? 'Error' : a / b; break;
+    default: return;
+  }
+  cur = r === 'Error' ? 'Error' : String(Number(r.toPrecision(12))).replace(/\.0+$|(\.\d*[1-9])0+$/, '$1');
+  op = null; prev = null; overwrite = true;
+}
+
+function calcClear() { cur = '0'; prev = null; op = null; overwrite = false; }
+
+document.querySelectorAll('.calc-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.dataset.num !== undefined) { appendNum(btn.dataset.num); }
+    else {
+      const a = btn.dataset.action;
+      if (a === 'clear') calcClear();
+      else if (a === 'toggle-sign') { if (cur !== '0' && cur !== 'Error') cur = cur.startsWith('-') ? cur.slice(1) : '-' + cur; }
+      else if (a === 'percent') { if (cur !== 'Error') { cur = String(parseFloat(cur) / 100); overwrite = true; } }
+      else if (a === '=') compute();
+      else chooseOp(a);
+    }
+    updateCalc();
+  });
+});
+
+window.addEventListener('keydown', e => {
+  if (!document.getElementById('page-calc').classList.contains('active')) return;
+  if (e.key >= '0' && e.key <= '9') { appendNum(e.key); updateCalc(); return; }
+  if (e.key === '.') { appendNum('.'); updateCalc(); return; }
+  if (e.key === 'Enter' || e.key === '=') { compute(); updateCalc(); e.preventDefault(); return; }
+  if (['+', '-', '*', '/'].includes(e.key)) { chooseOp(e.key); updateCalc(); return; }
+  if (e.key === 'Backspace') {
+    if (overwrite || cur === 'Error') { cur = '0'; overwrite = false; }
+    else cur = cur.length === 1 ? '0' : cur.slice(0, -1);
+    updateCalc(); return;
+  }
+  if (e.key === 'Escape') { calcClear(); updateCalc(); return; }
+  if (e.key === '%') { if (cur !== 'Error') { cur = String(parseFloat(cur) / 100); overwrite = true; } updateCalc(); return; }
+});
+
+updateCalc();
+
+/* ────────────────────────────────
+   TEMPERATURE CONVERTER
+──────────────────────────────── */
+function convertTemp(v, from, to) {
+  if (from === to) return v;
+  let c = from === 'C' ? v : from === 'F' ? (v - 32) * 5 / 9 : v - 273.15;
+  return to === 'C' ? c : to === 'F' ? c * 9 / 5 + 32 : c + 273.15;
+}
+
+function fmtTemp(n) {
+  return Number.isInteger(n) ? String(n) : parseFloat(n.toFixed(2)).toString();
+}
+
+const tempIn = document.getElementById('tempInput');
+const fromSel = document.getElementById('fromUnit');
+const toSel = document.getElementById('toUnit');
+const convertBtnEl = document.getElementById('convertBtn');
+const tempResultEl = document.getElementById('tempResult');
+const tempErrorEl = document.getElementById('tempError');
+
+function doConvert() {
+  tempErrorEl.textContent = '';
+  const raw = tempIn.value.trim();
+  if (!raw) { tempErrorEl.textContent = 'Please enter a temperature value.'; tempResultEl.textContent = '—'; return; }
+  const num = Number(raw);
+  if (!isFinite(num)) { tempErrorEl.textContent = 'Invalid number — please enter a numeric value.'; tempResultEl.textContent = '—'; return; }
+  const from = fromSel.value, to = toSel.value;
+  const result = convertTemp(num, from, to);
+  const unit = to === 'C' ? '°C' : to === 'F' ? '°F' : 'K';
+  tempResultEl.textContent = fmtTemp(result) + ' ' + unit;
+}
+
+convertBtnEl.addEventListener('click', doConvert);
+tempIn.addEventListener('keydown', e => { if (e.key === 'Enter') doConvert(); });
+toSel.addEventListener('change', () => {
+  if (fromSel.value === toSel.value) tempResultEl.textContent = 'Same unit selected — result will equal input.';
+});
+</script>
+<script>
+/* ────────────────────────────────
+   AURÀ E-COMMERCE PAGE LOGIC
+──────────────────────────────── */
+
+/* ── Mobile Menu ── */
+const mobileMenu = document.getElementById('auraMobileMenu');
+document.getElementById('auraMenuOpen').addEventListener('click', () => mobileMenu.classList.add('open'));
+document.getElementById('auraMenuClose').addEventListener('click', () => mobileMenu.classList.remove('open'));
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+/* ── Auth Tabs ── */
+function auraSwitchTab(tab) {
+  const signup = document.getElementById('auraFormSignup');
+  const login = document.getElementById('auraFormLogin');
+  const tabS = document.getElementById('auraTabSignup');
+  const tabL = document.getElementById('auraTabLogin');
+  if (tab === 'signup') {
+    signup.classList.remove('hidden'); login.classList.add('hidden');
+    tabS.classList.add('active'); tabL.classList.remove('active');
+  } else {
+    login.classList.remove('hidden'); signup.classList.add('hidden');
+    tabL.classList.add('active'); tabS.classList.remove('active');
+  }
+}
+
+/* ── Toast ── */
+function auraShowToast(msg) {
+  const t = document.getElementById('auraToast');
+  t.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+/* ── Cart ── */
+let cartCount = 3;
+function auraAddToCart(name) {
+  cartCount++;
+  document.querySelector('.cart-badge').textContent = cartCount;
+  auraShowToast(`${name} added to bag`);
+}
+
+/* ── Forms ── */
+function auraHandleSignup(e) {
+  e.preventDefault();
+  auraShowToast('Welcome to Aurà! Account created.');
+  e.target.reset();
+}
+function auraHandleLogin(e) {
+  e.preventDefault();
+  auraShowToast('Welcome back! You\'re signed in.');
+  e.target.reset();
+}
+function auraHandleNewsletter(e) {
+  e.preventDefault();
+  auraShowToast('You\'re in the edit. Welcome!');
+  e.target.reset();
+}
+
+/* ── Scroll to auth ── */
+function auraScrollToAuth() {
+  document.getElementById('aura-auth').scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ── Wishlist toggle ── */
+document.querySelectorAll('.wishlist-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const icon = btn.querySelector('i');
+    if (icon.classList.contains('far')) {
+      icon.classList.replace('far', 'fas');
+      btn.style.color = '#e74c3c';
+      auraShowToast('Added to wishlist');
+    } else {
+      icon.classList.replace('fas', 'far');
+      btn.style.color = '';
+    }
+  });
+});
+
+/* ── Scroll reveal ── */
+const auraIo = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+      auraIo.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+
+document.querySelectorAll('#page-aura .product-card, #page-aura .cat-card, #page-aura .feature-item').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(22px)';
+  el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+  auraIo.observe(el);
+});
+
+</script>
+</body>
+</html>

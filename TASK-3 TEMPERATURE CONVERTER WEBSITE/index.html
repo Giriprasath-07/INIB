@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Temperature Converter</title>
+  <style>
+    :root {
+      --bg: #f7f9fc;
+      --card: #ffffff;
+      --accent: #2563eb;
+      --muted: #6b7280;
+      --danger: #dc2626;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, #eef2ff 0%, var(--bg) 100%);
+      color: #0f172a;
+      padding: 2rem;
+    }
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: var(--card);
+      padding: 1.25rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(16,24,40,0.06);
+    }
+    h1 { margin: 0 0 0.75rem 0; font-size: 1.25rem; }
+    .row { display:flex; gap:0.75rem; align-items:center; margin-bottom:0.75rem; }
+    label { font-size:0.9rem; color:var(--muted); display:block; margin-bottom:0.35rem; }
+    input[type="text"] {
+      flex: 1;
+      padding: 0.5rem 0.6rem;
+      border: 1px solid #e6edf3;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    select {
+      padding: 0.5rem;
+      border-radius: 8px;
+      border: 1px solid #e6edf3;
+      background: white;
+      font-size:0.95rem;
+    }
+    button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.6rem 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:disabled { opacity: 0.6; cursor: default; }
+    .result {
+      margin-top: 0.75rem;
+      padding: 0.85rem;
+      border-radius: 8px;
+      background: #f8fafc;
+      border: 1px solid #eef2ff;
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+    .error { color: var(--danger); font-size:0.9rem; margin-top:0.35rem; }
+    .hint { font-size:0.85rem; color:var(--muted); margin-top:0.25rem; }
+    .controls { display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center; margin-bottom:0.5rem; }
+    @media (max-width:420px){
+      .row { flex-direction: column; align-items: stretch; }
+      .controls { flex-direction: column; align-items: stretch; }
+      button { width:100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="card" aria-labelledby="title">
+    <h1 id="title">Temperature Converter</h1>
+
+    <div class="row">
+      <div style="flex:1">
+        <label for="tempInput">Enter temperature</label>
+        <input id="tempInput" inputmode="decimal" type="text" aria-describedby="inputHelp" placeholder="e.g. 36.6 or -40" />
+        <div id="inputError" class="error" role="alert" aria-live="polite" style="display:none"></div>
+        <div id="inputHelp" class="hint">You can use decimals and negative values.</div>
+      </div>
+    </div>
+
+    <div class="row controls" role="group" aria-label="Units selection">
+      <div>
+        <label for="fromUnit">From</label>
+        <select id="fromUnit" aria-label="Input unit">
+          <option value="C">Celsius (°C)</option>
+          <option value="F">Fahrenheit (°F)</option>
+          <option value="K">Kelvin (K)</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="toUnit">To</label>
+        <select id="toUnit" aria-label="Target unit">
+          <option value="F">Fahrenheit (°F)</option>
+          <option value="C">Celsius (°C)</option>
+          <option value="K">Kelvin (K)</option>
+        </select>
+      </div>
+
+      <div style="align-self:flex-end;">
+        <button id="convertBtn" type="button">Convert</button>
+      </div>
+    </div>
+
+    <div id="result" class="result" aria-live="polite">Result will appear here after conversion.</div>
+  </main>
+
+  <script>
+    // Utility: convert between C, F, K
+    function convertTemperature(value, from, to) {
+      if (from === to) return value;
+      let c; // intermediate Celsius
+      if (from === "C") c = value;
+      else if (from === "F") c = (value - 32) * 5 / 9;
+      else if (from === "K") c = value - 273.15;
+      else throw new Error("Unknown 'from' unit");
+
+      let out;
+      if (to === "C") out = c;
+      else if (to === "F") out = c * 9 / 5 + 32;
+      else if (to === "K") out = c + 273.15;
+      else throw new Error("Unknown 'to' unit");
+
+      return out;
+    }
+
+    // Format with up to 2 decimals, but keep integer as integer
+    function fmt(n) {
+      if (Number.isInteger(n)) return n.toString();
+      return parseFloat(n.toFixed(2)).toString();
+    }
+
+    const tempInput = document.getElementById("tempInput");
+    const fromUnit = document.getElementById("fromUnit");
+    const toUnit = document.getElementById("toUnit");
+    const convertBtn = document.getElementById("convertBtn");
+    const resultBox = document.getElementById("result");
+    const inputError = document.getElementById("inputError");
+
+    function showError(msg) {
+      inputError.style.display = "block";
+      inputError.textContent = msg;
+    }
+    function clearError() {
+      inputError.style.display = "none";
+      inputError.textContent = "";
+    }
+
+    function handleConvert() {
+      clearError();
+      const raw = tempInput.value.trim();
+      if (raw === "") {
+        showError("Please enter a temperature value.");
+        resultBox.textContent = "—";
+        return;
+      }
+      // Accept numeric input with optional leading +/-, decimals. Reject extraneous characters.
+      // parseFloat handles many cases but we guard with isFinite.
+      const num = Number(raw);
+      if (!Number.isFinite(num)) {
+        showError("Invalid number — please enter a valid numeric temperature.");
+        resultBox.textContent = "—";
+        return;
+      }
+
+      const from = fromUnit.value;
+      const to = toUnit.value;
+      try {
+        const converted = convertTemperature(num, from, to);
+        resultBox.textContent = fmt(converted) + " " + (to === "C" ? "°C" : to === "F" ? "°F" : "K");
+      } catch (err) {
+        showError("Conversion error: " + (err && err.message ? err.message : "unknown"));
+        resultBox.textContent = "—";
+      }
+    }
+
+    convertBtn.addEventListener("click", handleConvert);
+
+    // Convert on Enter
+    tempInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        handleConvert();
+      }
+    });
+
+    // Prevent invalid pasted content (quick guard)
+    tempInput.addEventListener("paste", (e) => {
+      // Allow paste but trim; validation happens on convert.
+      setTimeout(() => {
+        tempInput.value = tempInput.value.trim();
+      }, 0);
+    });
+
+    // Friendly behavior: when from and to are same, show message but allow conversion
+    toUnit.addEventListener("change", () => {
+      if (fromUnit.value === toUnit.value) {
+        resultBox.textContent = "Selected the same unit — conversion will return the original value.";
+      } else {
+        resultBox.textContent = "Result will appear here after conversion.";
+      }
+    });
+
+    // Initialize
+    resultBox.textContent = "Enter a value, choose units, and press Convert.";
+  </script>
+</body>
+</html>

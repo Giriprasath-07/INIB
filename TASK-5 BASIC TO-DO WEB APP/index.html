@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Productivity To-Do Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <div class="main-container">
+
+        <!-- LEFT PANEL -->
+
+        <div class="left-panel">
+
+            <h1>📋 Task Manager</h1>
+
+            <p>
+                Manage your daily tasks efficiently
+                and stay productive throughout the day.
+            </p>
+
+            <!-- INPUT -->
+
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="Enter your task..."
+            >
+
+            <!-- BUTTON -->
+
+            <button onclick="addTask()">
+
+                ➕ Add Task
+
+            </button>
+
+            <!-- STATS -->
+
+            <div class="stats">
+
+                <div class="stat-box">
+
+                    <h2 id="totalTasks">0</h2>
+
+                    <span>Total Tasks</span>
+
+                </div>
+
+                <div class="stat-box">
+
+                    <h2 id="completedTasks">0</h2>
+
+                    <span>Completed</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT PANEL -->
+
+        <div class="right-panel">
+
+            <div class="task-header">
+
+                <h2>📌 Your Tasks</h2>
+
+            </div>
+
+            <!-- TASK LIST -->
+
+            <ul id="taskList"></ul>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
